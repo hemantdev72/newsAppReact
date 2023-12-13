@@ -1,58 +1,24 @@
-import Navbar from "./components/Navbar";
-import { useState } from "react";
 import "./App.css";
-import TextForm from "./components/TextForm";
-import About from "./components/About";
-import Alert from "./components/Alert";
-import { ChromePicker } from "react-color";
+import Navbar from "./components/Navbar";
+import News from "./components/News";
+
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function App() {
-  const [mode, setMode] = useState("light");
-  const [alert, setAlert] = useState(null);
-  const [color, setColor] = useState("#ff0000");
-
-  const handleColorChange = (newColor) => {
-    setColor(newColor.hex);
-    console.log(newColor.hex);
-  };
-
-  function showAlert(message, type) {
-    setAlert({
-      msg: message,
-      type: type,
-    });
-
-    setTimeout(() => {
-      setAlert(null);
-    }, 2000);
-  }
-
-  function toggle() {
-    if (mode === "dark") {
-      setMode("light");
-      document.body.style.backgroundColor = "white";
-      showAlert("Light Mode has been enabled", "success");
-    } else {
-      setMode("dark");
-      document.body.style.backgroundColor = "#072b36";
-      showAlert("Dark Mode has been enabled", "success");
-    }
-  }
-
   return (
     <>
-      <Navbar
-        mode={mode}
-        handler={toggle}
-        color={color}
-        handlerC={handleColorChange}
-      />
-      <Alert alert={alert} />
-
-      <div className="container">
-        <TextForm text="Enter Text Here" mode={mode} showAlert={showAlert} />
-        {/* <About /> */}
-      </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navbar category="general" />} />
+          <Route path="/science" element={<Navbar category="science" />} />
+          <Route
+            path="/entertainment"
+            element={<Navbar category="entertainment" />}
+          />
+          <Route path="/general" element={<Navbar category="general" />} />
+          <Route path="/health" element={<Navbar category="health" />} />
+        </Routes>
+      </Router>
     </>
   );
 }
